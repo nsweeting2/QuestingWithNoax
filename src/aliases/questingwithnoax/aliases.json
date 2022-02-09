@@ -1,0 +1,6 @@
+[
+    {
+        "name": "QuestingUpdate",
+        "regex": "^questing update$"
+    }
+]
