@@ -1,14 +1,14 @@
 ------------------------------------------------------------------------
---Xaos automatic questing written by Noax.                            --
---Comically refered to by: Now you're questing with Noax.             --
---Created July 2019, MSDP'd October 2020.                             --
+--  Xaos automatic questing written by Noax.                          --
+--  Comically refered to by: Now you're questing with Noax.           --
+--  Created July 2019, MSDP'd October 2020.                           --
 --                                                                    --
---Updater code based on Jor'Mox's Generic Map Script,                 --
---I opted to check for updates only when a character is               --
---connected or reconnected to the server to save on complexity.       --
---I do this by handling a IAC AYT signal with sysTelnetEvent.         --
+--  Updater code based on Jor'Mox's Generic Map Script,               --
+--  I opted to check for updates only when a character is             --
+--  connected or reconnected to the server to save on complexity.     --
+--  I do this by handling a IAC AYT signal with sysTelnetEvent.       --
 --                                                                    --
---Requires the msdp protocol.                                         --
+--  Requires the msdp protocol.                                       --
 ------------------------------------------------------------------------
 
 --setup global table for msdp, the client will put things here automatically.
@@ -25,8 +25,6 @@ qwn = qwn or {
     version = 2.1, --version we compare for updating
     downloading = false, --if we are downloading an update
     downloadPath = "https://raw.githubusercontent.com/nsweeting2/Xaos-UI/main/QuestingWithNoax/", --path we download files from
-    folder = "/questingwithnoax",
-    file = "QuestingWithNoax.xml",
     updating = false, --if we are installing an update
     }
 
@@ -44,7 +42,7 @@ end
 function qwn.saveConfigs()
 
     local configs = {}
-    local path = profilePath .. qwn.folder
+    local path = profilePath .. "/questingwithnoax"
 
     --this is where we would save stuff
     table.save(path.."/configs.lua",configs)
@@ -57,7 +55,7 @@ end
 local function config()
 
     local configs = {}
-    local path = profilePath .. qwn.folder
+    local path = profilePath .. "/questingwithnoax"
 
     --if our subdir doesn't exist make it
     if not io.exists(path) then
@@ -79,10 +77,10 @@ local function config()
 end
 
 --will compare ct.version to highest version is version.lua
---versions.lua must be downloaded by ct.downloadVersions first
+--versions.lua must be downloaded by qwn.downloadVersions first
 local function compareVersion()
 
-    local path = profilePath .. qwn.folder .. "/versions.lua"
+    local path = profilePath .."/questingwithnoax/versions.lua"
     local versions = {}
 
     --load versions.lua into versions table
@@ -104,7 +102,7 @@ end
 function qwn.downloadVersions()
 
     if qwn.downloadPath ~= "" then
-        local path, file = profilePath .. "/questing downloads", "/versions.lua"
+        local path, file = profilePath .. "/questingwithnoax", "/versions.lua"
         qwn.downloading = true
         downloadFile(path .. file, qwn.downloadPath .. file)
     end
@@ -114,7 +112,7 @@ end
 --will uninstall QuestingWithNoax and reinstall QuestingWithNoax
 local function updatePackage()
 
-    local path = profilePath .. qwn.folder .. qwn.file
+    local path = profilePath .. "/questingwithnoax/QuestingWithNoax.xml"
 
     disableAlias("QuestingUpdate")
     qwn.updating = true
@@ -126,10 +124,10 @@ local function updatePackage()
 
 end
 
---will download the CombatTracker.xml file from the web
+--will download the QuestingWithNoax.xml file from the web
 function qwn.downloadPackage()
 
-    local path, file = profilePath .. qwn.folder .. qwn.file
+    local path, file = profilePath .. "/questingwithnoax", "/QuestingWithNoax.xml"
     qwn.downloading = true
     downloadFile(path .. file, qwn.downloadPath .. file)
 
