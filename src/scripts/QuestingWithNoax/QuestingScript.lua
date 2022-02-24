@@ -24,12 +24,12 @@ qwn = qwn or {
     neverQuests = {}, --table of quests the user never wants
     version = 2.1, --version we compare for updating
     downloading = false, --if we are downloading an update
-    downloadPath = "https://raw.githubusercontent.com/nsweeting2/Xaos-UI/main/QuestingWithNoax/", --path we download files from
+    downloadPath = "https://raw.githubusercontent.com/nsweeting2/QuestingWithNoax/main/", --path we download files from
     updating = false, --if we are installing an update
     }
 
 --formatting for stylized echos
-local questTag = "<DarkViolet>[QUESTR<DarkViolet>]  - <reset>"
+local questTag = "<DarkViolet>[ QWN  <DarkViolet>]  - <reset>"
 
 --echo function for style points
 function qwn.echo(text)
@@ -43,9 +43,12 @@ function qwn.saveConfigs()
 
     local configs = {}
     local path = profilePath .. "/questingwithnoax"
+    local file = "/configs.lua"
 
     --this is where we would save stuff
-    table.save(path.."/configs.lua",configs)
+    table.save(path .. file, configs)
+
+    --set a timer to save our config again
     qwn.saveTimer = tempTimer(60, [[qwn.saveConfigs()]])
 
 end
@@ -56,6 +59,7 @@ local function config()
 
     local configs = {}
     local path = profilePath .. "/questingwithnoax"
+    local file = "/configs.lua"
 
     --if our subdir doesn't exist make it
     if not io.exists(path) then
@@ -63,12 +67,14 @@ local function config()
     end
 
     --load stored configs from file if it exists
-    if io.exists(path.."/configs.lua") then
-        table.load(path.."/configs.lua",configs)
+    if io.exists(path .. file) then
+        table.load(path .. file, configs)
         --this is where we would load stuff
     end
 
-    --configure the msdp we need for questing
+    --check that msdp is enabled in mudlet
+
+    --ask the server for the msdp we need
     sendMSDP("REPORT","QUEST_LIST")
 
     --and we are done configuring QuestingWithNoax
@@ -76,7 +82,7 @@ local function config()
 
 end
 
---will compare ct.version to highest version is version.lua
+--will compare qwn.version to highest version is versions.lua
 --versions.lua must be downloaded by qwn.downloadVersions first
 local function compareVersion()
 
@@ -171,7 +177,7 @@ local function on_QUEST_LIST()
 
 end
 
---handles out annonymus events
+--handles our annonymus events
 function qwn.eventHandler(event, ...)
 
     --download done, if this package was downloading, check the file name and launch a function
